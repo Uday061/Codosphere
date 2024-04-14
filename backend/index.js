@@ -4,6 +4,8 @@ const connectDatabase = require("./dbconnect/dbconnect.js");
 const dotenv = require("dotenv");
 dotenv.config({ path : "./config/config.env" });
 const authRoute = require("./routes/authRoute.js");
+const postRoute = require("./routes/postRoute.js");
+const userRoute = require("./routes/userRoute.js");
 
 
 const port = process.env.PORT;
@@ -11,7 +13,8 @@ app.use(express.json());
 connectDatabase();
 
 app.use("/api/auth",authRoute);
-
+app.use("/api/post",postRoute);
+app.use("/api/user",userRoute);
 app.get("/", async (req,res ) => {
     res.send("HELLO WORLD !!! ");
 })
