@@ -6,11 +6,12 @@ dotenv.config({ path : "./config/config.env" });
 const authRoute = require("./routes/authRoute.js");
 const postRoute = require("./routes/postRoute.js");
 const userRoute = require("./routes/userRoute.js");
-
+const cors = require("cors");
 
 const port = process.env.PORT;
 app.use(express.json());
 connectDatabase();
+app.use(cors());
 
 app.use("/api/auth",authRoute);
 app.use("/api/post",postRoute);
