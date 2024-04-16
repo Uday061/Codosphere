@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { authActions } from './store/slices/authSlice.jsx';
 import { useEffect } from 'react';
 import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export default function App() {
       
         <Routes>
           <Route exact path='/login' element={<Login />}></Route>
-       
+          <Route exact path='/signup' element={<Signup />}></Route>
        
      
         </Routes>

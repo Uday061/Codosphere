@@ -19,7 +19,7 @@ const Login = () => {
 
     await axios.post("http://localhost:5555/api/auth/login", Inputs).then((response) => {
       const token = response.data.token;
-      sessionStorage.setItem("token" ,token);
+      sessionStorage.setItem("token", token);
       dispatch(authActions.login());
       navigate("/todo");
     })
@@ -27,9 +27,9 @@ const Login = () => {
 
 
   return (
-    <div className="container-fluid h-100 ">
-      <div className="row h-100 justify-content-center align-items-center signin">
-        <div className="col-md-10 col-lg-8 col-xl-6">
+    <div className="container-fluid h-screen">
+      <div className="flex justify-center items-center h-full">
+        <div className="md:col-span-10 lg:col-span-8 xl:col-span-6">
           <div className="card mt-4">
             <div className="card-body">
               <h3 className="card-title text-center mb-4">Sign In</h3>
@@ -66,8 +66,8 @@ const Login = () => {
                   />
                 </div>
 
-                {/* Signup Button */}
-                <button onClick = {submit} type="submit" className="btn btn-secondary w-100">
+                {/* Sign In Button */}
+                <button onClick={submit} type="submit" className="btn btn-secondary w-full">
                   Sign In
                 </button>
               </form>
@@ -76,6 +76,7 @@ const Login = () => {
         </div>
       </div>
     </div>
+
   );
 };
 

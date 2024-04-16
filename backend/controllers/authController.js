@@ -19,6 +19,7 @@ const User = require('../models/user.js')
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
+
     const newUser = new User({
       firstName,
       lastName,
@@ -34,7 +35,7 @@ const User = require('../models/user.js')
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: "User already exists" });
   }
 };
 
