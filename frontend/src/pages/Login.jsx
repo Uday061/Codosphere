@@ -17,12 +17,22 @@ const Login = () => {
     e.preventDefault();
     //console.log(Inputs);
 
-    await axios.post("http://localhost:5555/api/auth/login", Inputs).then((response) => {
-      const token = response.data.token;
+
+    try {
+      const response = await axios.post("http://localhost:5555/api/auth/login", Inputs) 
+      const token =  await response.data.token;
+      const user=  await response.data.user;
+      console.log(user)
       sessionStorage.setItem("token", token);
-      dispatch(authActions.login());
-      navigate("/todo");
-    })
+
+      dispatch(authActions.login({user:user}));
+    
+    } catch (error) {
+        
+    }
+
+
+    
   }
 
 
