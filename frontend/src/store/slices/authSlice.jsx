@@ -2,14 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
     name : "auth" ,
-    initialState : { id : "", isLogged : false, user : null } ,
+    initialState : { jwtToken : "", isLogged : false, user : null } ,
     reducers : {
         login(state,actions){
             state.isLogged = true;
             //state.user = { test : " YES " }
-             try {
+            try {
                 console.log("payload ",actions.payload.user);
                 state.user = actions.payload.user; 
+                state.jwtToken = sessionStorage.getItem("token");
+
             } catch (error) {
                 console.log("caught here")
             }
