@@ -20,6 +20,7 @@ app.use(cors());
 app.use("/api/auth",authRoute);
 app.use("/api/post",postRoute);
 app.use("/api/user",userRoute);
+
 app.get("/", async (req,res ) => {
     res.send("HELLO WORLD !!! ");
 })
@@ -52,9 +53,6 @@ app.use('/upload-images',upload.array('image'),async(req,res)=>{
     }
 })
 
-
-
-  
 
 ////////////////////////////////////////////////////
 

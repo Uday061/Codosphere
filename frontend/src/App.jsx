@@ -8,6 +8,8 @@ import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Post from './components/Post.jsx';
 import CreatePostForm from './components/CreatePostForm.jsx';
+import Home from './pages/Home.jsx';
+import axios from 'axios';
 
 
 
@@ -16,12 +18,42 @@ export default function App() {
   const isLogged = (state) => {
     return state.auth.isLogged;
   }
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem("token");
+  //   if (token) {
+  //     dispatch(authActions.login());
+  //   }
+  // }, [])
+
+  // const [userData, setUserData] = useState(null);
+  // const [error, setError] = useState(null);
+
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      dispatch(authActions.login());
-    }
-  }, [])
+    const fetchUserData = async () => {
+      try {
+        // Get JWT token from local storage (assuming it's stored there after login)
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          throw new Error('No token found');
+        }
+
+        // Make API call to backend to get user data
+        const response = await axios.get('http://localhost:5555/api/user/getUserByjwt', {
+          headers: {
+            Authorization: `Bearer ${token}` // Attach JWT token to the request
+          }
+        });
+
+        // setUserData(response.data);
+        dispatch(authActions.login({user:response.data}));
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchUserData();
+  }, []);
   return (
     <div>
      <Router>
@@ -31,7 +63,7 @@ export default function App() {
           <Route exact path='/signup' element={<Signup />}></Route>
           <Route exact path='/post' element={<Post />}></Route>
           <Route exact path='/createPost' element={<CreatePostForm />}></Route>
-          
+          <Route exact path='/home' element={<Home/>}></Route>
        
      
         </Routes>

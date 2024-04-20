@@ -23,7 +23,7 @@ const Login = () => {
       const token =  await response.data.token;
       const user=  await response.data.user;
       console.log(user)
-      sessionStorage.setItem("token", token);
+      localStorage.setItem("token", token);
 
       dispatch(authActions.login({user:user}));
     

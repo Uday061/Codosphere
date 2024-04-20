@@ -1,10 +1,22 @@
 const User =  require("../models/user.js");
 
+
 /* READ */
-const getUser = async (req, res) => {
+// const getUser = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     // const user = await User.findById(id);
+//   console.log('first')
+//     const user = await User.findById(uu.id._id);
+//     res.status(200).json(user);
+//   } catch (err) {
+//     res.status(404).json({ message: err.message });
+//     // res.status(404).json({uu });
+//   }
+// };
+const getUserByjwt = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(req.user.id);
     res.status(200).json(user);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -62,4 +74,4 @@ const addRemoveFriend = async (req, res) => {
   }
 };
 
-module.exports = {getUser , getUserFriends , addRemoveFriend };
+module.exports = { getUserFriends , addRemoveFriend ,getUserByjwt};
