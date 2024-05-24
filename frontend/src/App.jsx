@@ -57,7 +57,7 @@ export default function App() {
   return (
     <div>
      <Router>
-      
+      <Navbar></Navbar>
         <Routes>
           <Route exact path='/login' element={<Login />}></Route>
           <Route exact path='/signup' element={<Signup />}></Route>

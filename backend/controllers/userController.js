@@ -17,6 +17,7 @@ const User =  require("../models/user.js");
 const getUserByjwt = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
+    user.password=""
     res.status(200).json(user);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -48,7 +49,7 @@ const addRemoveFriend = async (req, res) => {
     const { id, friendId } = req.params;
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
-
+    console.log(friend);
     if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((id) => id !== friendId);
       friend.friends = friend.friends.filter((id) => id !== id);
@@ -70,7 +71,8 @@ const addRemoveFriend = async (req, res) => {
 
     res.status(200).json(formattedFriends);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ message: err.message  });
+    
   }
 };
 
