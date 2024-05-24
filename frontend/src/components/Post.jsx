@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -7,30 +7,42 @@ import axios from 'axios';
 
 const Post = (props) => {
     const user = useSelector((state) => state.auth.user);
-
+    const [likes, setLikes] = useState(props.post.likes.length || 0);
+    const [isLiked, setIsLiked] = useState(false);
     const token = localStorage.getItem('token');
-    console.log('Token:', token);
+    // console.log('Token:', token);
     const handleClickLike = async () => {
         try {
-        console.log("line1")
-        console.log(props.post._id);
+       
+        // console.log(props.post._id);
           const url = `http://localhost:5555/api/post/${props.post._id}/like`;
-          console.log("line2")
-          const response = await axios.patch(url ,{
+         
+          const response = await axios.patch(url,{},{
             headers: {
-              Authorization: `Bearer ${token}` // Attach JWT token to the request
+              Authorization:`Bearer ${token}` // Attach JWT token to the request
             }
           });
-          console.log("line3")
+
+          if (response.status === 200) {
+            setLikes(likes + 1);
+            setIsLiked(true);
+          }
     
           
         } catch (error) {
-        console.log("bhak bsdk")
+        
           console.error('Error liking the post:', error);
         }
       };
 
-
+      const buttonStyle = {
+        color: isLiked ? 'red' : 'black',
+        cursor: 'pointer',
+        // padding: '10px 20px',
+        // border: '1px solid black',
+        backgroundColor: 'white',
+        // borderRadius: '5px',
+      };
      
  
     const formattedDate = new Date(props.post.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -62,7 +74,7 @@ const Post = (props) => {
                     </p>
                     <div className="mt-4 flex items-center">
                         <div className="flex mr-2 text-gray-700 text-sm mr-3">
-                            <div onClick = { handleClickLike }>
+                            <div style={buttonStyle} onClick={handleClickLike}>
                                 <svg fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-1" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
