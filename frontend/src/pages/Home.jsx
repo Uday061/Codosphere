@@ -45,26 +45,29 @@ const Home = () => {
 
 
     return (
-        // <div>
-        //     {/* Render posts */}
-        //     {friends && posts.map(post => (
-        //         <div key={post.id} >
-        //             {/* Render each post */}
-        //             <Post post={post}/>
-        //         </div>
-        //     ))}
-        //     {!friends && 
-        //         <div>
-        //             gian
-        //         </div>
-        //     }
-        // </div>
+        <>
         <>
             {!user && <h2>Loading...</h2>}
             {user && <h1>Welcome {user.firstName} {user.lastName}</h1>}
 
             <CreatePostForm></CreatePostForm>
-            <Post></Post>
+            
+        </>
+        <div>
+            {/* Render posts */}
+            {posts && posts.map(post => (
+                <div key={post.id} >
+                    {/* Render each post */}
+                    <Post post={post}/>
+                </div>
+            ))}
+            {!friends && 
+                <div>
+                    gian
+                </div>
+            }
+        </div>
+        
         </>
     );
 };

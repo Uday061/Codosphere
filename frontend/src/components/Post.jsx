@@ -1,27 +1,73 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
+
+
 
 const Post = (props) => {
-    return (
+    const user = useSelector((state) => state.auth.user);
 
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+    const handleClickLike = async () => {
+        try {
+        console.log("line1")
+        console.log(props.post._id);
+          const url = `http://localhost:5555/api/post/${props.post._id}/like`;
+          console.log("line2")
+          const response = await axios.patch(url ,{
+            headers: {
+              Authorization: `Bearer ${token}` // Attach JWT token to the request
+            }
+          });
+          console.log("line3")
+    
+          
+        } catch (error) {
+        console.log("bhak bsdk")
+          console.error('Error liking the post:', error);
+        }
+      };
+
+
+     
+ 
+    const formattedDate = new Date(props.post.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+    const ms = Date.now() - new Date("2024-04-14T20:17:27.310Z");
+    const hrs = ms / 36e5;
+    const timeAgo = hrs < 24 ?
+        `${Math.round(hrs)} hr` :
+        hrs < 168 ?
+            `${Math.round(hrs / 24)} d ` :
+            hrs < 720 ?
+                `${Math.round(hrs / 168)} w` :
+                hrs < 8760 ?
+                    `${Math.round(hrs / 720)} mo` :
+                    `${Math.round(hrs / 8760)} yr`;
+    return (
+         
         <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl ">
             <div className="flex items-start px-4 py-6">
                 <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar" />
                 <div className="">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-gray-900 -mt-1">Brad Adams </h2>
-                        <small className="text-sm text-gray-700">22h ago</small>
+                        <h2 className="text-lg font-semibold text-gray-900 -mt-1">{props.post.firstName + " " + props.post.lastName} </h2>
+                        <small className="text-sm text-gray-700">{timeAgo}</small>
                     </div>
-                    <p className="text-gray-700">Joined 12 SEP 2012. </p>
-                    <div> <img src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="postPic" /></div>
+                    <p className="text-gray-700">{formattedDate} </p>
+                    <div> <img src={props.post.picturePath} alt="postPic" /></div>
                     <p className="mt-3 text-gray-700 text-sm">
-                        Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!
+                        {props.post.description}
                     </p>
                     <div className="mt-4 flex items-center">
                         <div className="flex mr-2 text-gray-700 text-sm mr-3">
-                            <svg fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-1" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                            <span>12</span>
+                            <div onClick = { handleClickLike }>
+                                <svg fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-1" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </div>
+                            <span>{props.post.likes.length}</span>
                         </div>
                         <div className="flex mr-2 text-gray-700 text-sm mr-8">
                             <svg fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-1" stroke="currentColor">

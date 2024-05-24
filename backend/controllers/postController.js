@@ -14,7 +14,7 @@ const createPost = async (req, res) => {
       description,
       userPicturePath: user.picturePath,
       picturePath,
-      likes: {},
+      likes: [],
       comments: [],
     });
     await newPost.save();
@@ -50,14 +50,20 @@ const getUserPosts = async (req, res) => {
 const likePost = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userId } = req.body;
+    console.log(req.user); // Ensure req.user is populated by your authentication middleware
+    const  userId  = req.user.id;
+    
     const post = await Post.findById(id);
-    const isLiked = post.likes.get(userId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const isLiked = post.likes.includes(userId);
 
     if (isLiked) {
-      post.likes.delete(userId);
+      post.likes = post.likes.filter(id => id !== userId);
     } else {
-      post.likes.set(userId, true);
+      post.likes.push(userId);
     }
 
     const updatedPost = await Post.findByIdAndUpdate(
@@ -65,10 +71,11 @@ const likePost = async (req, res) => {
       { likes: post.likes },
       { new: true }
     );
-
-    res.status(200).json(updatedPost);
-  } catch (err) {
-    res.status(404).json({ message: err.message });
+    
+    res.json({ message: 'Successful', likes: updatedPost.likes });
+  } catch (error) {
+    console.error('Error updating likes:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
