@@ -6,7 +6,6 @@ const AddForcesHandle = () => {
     const [submissionId, setSubmissionId] = useState('');
     const [startTime, setStartTime] = useState(null)
     const token = localStorage.getItem('token');
-
     const handleInputChange = (event) => {
         setHandle(event.target.value);
     };
@@ -39,12 +38,12 @@ const AddForcesHandle = () => {
 
             const timeDiff = submittedTime - startTime / 1000;
 
-            if (submittedHandle == handle && fetchedId == submissionId && fetchedContestId == 1578 && fetchedIndex == 'C' && timeDiff <= 200) {
+            if (submittedHandle == handle && fetchedId == submissionId && fetchedContestId == 1578 && fetchedIndex == 'C' && timeDiff <= 120) {
                 console.log(" Bato - Bati " + handle);
 
                 console.log(timeDiff);
 
-                const response = await axios.post(`http://localhost:5555/api/user/setCodeforcesHandle/${handle}`, postData, {
+                const response = await axios.post(`http://localhost:5555/api/user/setCodeforcesHandle/${handle}`,{}, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

@@ -81,21 +81,31 @@ const addRemoveFriend = async (req, res) => {
 
 const setCodeforcesHandle = async (req, res) => {
   try {
-    const { handle } = req.params;
-    const userId = req.user.id;
+    const { handle} = req.params;
+    const userId=req.user.id;
+    // Find the user by ID and update the codeForcesHandle field
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { codeForcesHandle: handle },
+      { new: true, runValidators: true } // Return the updated document and run validators
+    );
 
-    const user = User.findById(userId);
- 
-    user.codeForcesHandle = handle;
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    const savedUser = await user.save();
-    console.log(" Lo kar dia save ")
-    res.status(200).json(savedUser);
-    
+    // Send only the relevant user data in the response
+    res.status(200).json({
+      _id: user._id,
+      codeForcesHandle: user.codeForcesHandle,
+      // Add other fields you want to include in the response
+    });
+
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
+
 
 
 

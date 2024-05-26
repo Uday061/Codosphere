@@ -8,6 +8,10 @@ const User = require('../models/user.js')
     const {
       firstName,
       lastName,
+      codeForcesHandle,
+      leetcodeHandle,
+      atcoderHandle,
+      codechefHandle,
       email,
       password,
       picturePath,
@@ -23,12 +27,17 @@ const User = require('../models/user.js')
     const newUser = new User({
       firstName,
       lastName,
+      codeForcesHandle,
+      leetcodeHandle,
+      atcoderHandle,
+      codechefHandle,
       email,
       password: passwordHash,
       picturePath,
       friends,
       location,
       occupation,
+
       viewedProfile: Math.floor(Math.random() * 10000),
       impressions: Math.floor(Math.random() * 10000),
     });
