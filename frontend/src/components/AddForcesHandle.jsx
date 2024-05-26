@@ -27,7 +27,7 @@ const AddForcesHandle = () => {
     const handleSubmit = async () => {
 
         try {
-            const response1 = await axios.get(`https://codeforces.com/api/user.status?handle=${handle}`)
+            const response1 = await axios.get(`https://codeforces.com/api/user.status?handle=${handle}&from=1&count=1`)
             // Store the response data in a variable named 'response'
             let responseData = response1.data;
             const submittedHandle = responseData.result[0].author.members[0].handle;
@@ -38,7 +38,7 @@ const AddForcesHandle = () => {
 
             const timeDiff = submittedTime - startTime / 1000;
 
-            if (submittedHandle == handle && fetchedId == submissionId && fetchedContestId == 1578 && fetchedIndex == 'C' && timeDiff <= 120) {
+            if (submittedHandle == handle && fetchedId == submissionId && fetchedContestId == 1578 && fetchedIndex == 'C' && timeDiff <= 120 && timeDiff>=0) {
                 console.log(" Bato - Bati " + handle);
 
                 console.log(timeDiff);
