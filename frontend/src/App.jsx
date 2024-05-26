@@ -10,6 +10,7 @@ import Post from './components/Post.jsx';
 import CreatePostForm from './components/CreatePostForm.jsx';
 import Home from './pages/Home.jsx';
 import axios from 'axios';
+import Dashboard from './pages/Dashboard.jsx';
 
 
 
@@ -64,7 +65,8 @@ export default function App() {
           <Route exact path='/post' element={<Post />}></Route>
           <Route exact path='/createPost' element={<CreatePostForm />}></Route>
           <Route exact path='/home' element={<Home/>}></Route>
-       
+          <Route exact path='/dashboard' element={<Dashboard/>}></Route>
+          
      
         </Routes>
         

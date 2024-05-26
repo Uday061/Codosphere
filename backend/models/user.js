@@ -14,6 +14,18 @@ const UserSchema = new mongoose.Schema(
       min: 2,
       max: 50,
     },
+    codeForcesHandle: {
+      type: String,
+    },
+    leetcodeHandle: {
+      type: String,
+    },
+    atcoderHandle: {
+      type: String,
+    },
+    codechefHandle: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,

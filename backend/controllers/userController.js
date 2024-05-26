@@ -76,4 +76,36 @@ const addRemoveFriend = async (req, res) => {
   }
 };
 
-module.exports = { getUserFriends , addRemoveFriend ,getUserByjwt};
+
+
+
+const setCodeforcesHandle = async (req, res) => {
+  try {
+    const { handle } = req.params;
+    const userId = req.user.id;
+
+    const user = User.findById(userId);
+ 
+    user.codeForcesHandle = handle;
+
+    const savedUser = await user.save();
+    console.log(" Lo kar dia save ")
+    res.status(200).json(savedUser);
+    
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+
+
+
+
+
+
+
+module.exports = { getUserFriends , addRemoveFriend ,getUserByjwt , setCodeforcesHandle};
+
+
+
+
