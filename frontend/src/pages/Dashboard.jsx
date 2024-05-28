@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import UserCard from "../components/UserCard";
 import RatingChart from '../components/RatingsChart';
 import AddForcesHandle from "../components/AddForcesHandle";
+import TagPieChart from '../components/TagPieChart';
+import RatVsProb from '../components/RatVsProb';
 
 const Dashboard = () => {
   const user = useSelector((state) => state.auth.user);
@@ -13,8 +15,11 @@ const Dashboard = () => {
       
       <div className="flex flex-wrap justify-center">
         <UserCard user={user} />
+
         <RatingChart />
-        { 
+        <TagPieChart />
+        <RatVsProb />
+        { !( user.codeForcesHandle ) &&
             <AddForcesHandle />
         }
       </div>
