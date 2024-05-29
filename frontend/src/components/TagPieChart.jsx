@@ -39,9 +39,10 @@ const processChartData = (submissions) => {
   };
 };
 
-const TagPieChart = () => {
+const TagPieChart = (props) => {
   const [data, setData] = useState([]);
-  const user = useSelector((state) => state.auth.user);
+  // const user = useSelector((state) => state.auth.user);
+  const user=props.user;
 
   useEffect(() => {
     if (user && user.codeForcesHandle) {

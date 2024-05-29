@@ -35,9 +35,10 @@ const processChartData = (submissions) => {
   };
 };
 
-const RatVsProb = () => {
+const RatVsProb = (props) => {
   const [data, setData] = useState([]);
-  const user = useSelector((state) => state.auth.user);
+  // const user = useSelector((state) => state.auth.user);
+  const user=props.user;
 
   useEffect(() => {
     if (user && user.codeForcesHandle) {

@@ -65,8 +65,8 @@ export default function App() {
           <Route exact path='/post' element={<Post />}></Route>
           <Route exact path='/createPost' element={<CreatePostForm />}></Route>
           <Route exact path='/home' element={<Home/>}></Route>
-          <Route exact path='/dashboard' element={<Dashboard/>}></Route>
-          
+          <Route exact path='/dashboard/:id' element={<Dashboard/>}></Route>
+
      
         </Routes>
         

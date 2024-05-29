@@ -59,6 +59,16 @@ const getUserByjwt = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+const getUserObjId = async (req, res) => {
+  try {
+    const { id } = req.params; // Corrected to access 'id' directly
+    const user = await User.findById(id); // Access 'id' directly
+    user.password = ""; // Ensure password is not sent in the response
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
 
 const getUserFriends = async (req, res) => {
   try {
@@ -150,7 +160,7 @@ const setCodeforcesHandle = async (req, res) => {
 
 
 
-module.exports = { getUserFriends , addRemoveFriend ,getUserByjwt , setCodeforcesHandle,searchUsers};
+module.exports = { getUserFriends , addRemoveFriend ,getUserByjwt , setCodeforcesHandle,searchUsers,getUserObjId};
 
 
 
