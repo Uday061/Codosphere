@@ -14,6 +14,42 @@ const User =  require("../models/user.js");
 //     // res.status(404).json({uu });
 //   }
 // };
+//  const getAllUsers = async (req, res) => {
+//     try {
+//       const users = await User.find({});
+//       res.status(200).json(users);
+//     } catch (err) {
+//       res.status(404).json({ message: err.message });
+//       // res.status(404).json({uu });
+//     }
+//   };
+
+const searchUsers=async (req, res) => {
+  const query = req.query.query;
+
+  // Check if the query parameter is provided
+  if (!query) {
+      return res.status(400).json({ message: "Query parameter is required" });
+  }
+
+  try {
+      // Use a regular expression to perform a case-insensitive search
+      const searchRegex = new RegExp(query, 'i');
+      const users = await User.find({
+          $or: [
+              { firstName: searchRegex },
+              { lastName: searchRegex }
+          ]
+      });
+
+      // Return the found users
+      res.json(users);
+  } catch (err) {
+      // Handle any errors that occur during the search
+      res.status(500).json({ message: "Error searching users", error: err.message });
+  }
+}
+
 const getUserByjwt = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -114,7 +150,7 @@ const setCodeforcesHandle = async (req, res) => {
 
 
 
-module.exports = { getUserFriends , addRemoveFriend ,getUserByjwt , setCodeforcesHandle};
+module.exports = { getUserFriends , addRemoveFriend ,getUserByjwt , setCodeforcesHandle,searchUsers};
 
 
 
