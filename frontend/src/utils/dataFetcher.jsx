@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 
 export const fetchData = async () => {
     const user = useSelector((state) => state.auth.user);
+    
     const response = await fetch(`https://codeforces.com/api/user.status?handle=${user.codeForcesHandle}`);
     const data = await response.json();
     return data.result.filter(submission => submission.verdict === 'OK');

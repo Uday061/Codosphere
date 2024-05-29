@@ -38,6 +38,7 @@ const RatingChart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                
                 const response = await axios.get(`https://codeforces.com/api/user.rating?handle=${user.codeForcesHandle}`); // replace with your actual API endpoint
                 if (response.data.status === 'OK') {
                     const formattedData = response.data.result.map(contest => ({
