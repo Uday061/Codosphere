@@ -6,6 +6,8 @@ dotenv.config({ path : "./config/config.env" });
 const authRoute = require("./routes/authRoute.js");
 const postRoute = require("./routes/postRoute.js");
 const userRoute = require("./routes/userRoute.js");
+const chatRoute = require("./routes/chatRoute.js");
+const messageRoute = require("./routes/messageRoute.js");
 const cors = require("cors");
 const upload = require("./multer");
 const cloudinary = require("./cloudinary"); 
@@ -20,6 +22,9 @@ app.use(cors());
 app.use("/api/auth",authRoute);
 app.use("/api/post",postRoute);
 app.use("/api/user",userRoute);
+app.use("/api/chat", chatRoute);
+app.use("/api/message", messageRoute);
+
 
 app.get("/", async (req,res ) => {
     res.send("HELLO WORLD !!! ");
@@ -57,7 +62,57 @@ app.use('/upload-images',upload.array('image'),async(req,res)=>{
 ////////////////////////////////////////////////////
 
 
+const server = app.listen(
+  port,
+  console.log(`Server running on PORT ${port}...`)
+);
 
-app.listen(port, ()=>{
-    console.log(`listening to port : ${port} `);
-})
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:5173",
+    // credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+    console.log("Connected to socket.io");
+    socket.on("setup", (userData) => {
+      socket.join(userData._id);
+      socket.emit("connected");
+    });
+  
+    socket.on("join chat", (room) => {
+      socket.join(room);
+      console.log("User Joined Room: " + room);
+    });
+    socket.on("typing", (room) => socket.in(room).emit("typing"));
+    socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+  
+    socket.on("new message", (newMessageRecieved) => {
+      var chat = newMessageRecieved.chat;
+  
+      if (!chat.users) return console.log("chat.users not defined");
+  
+      chat.users.forEach((user) => {
+        if (user._id == newMessageRecieved.sender._id) return;
+  
+        socket.in(user._id).emit("message recieved", newMessageRecieved);
+      });
+    });
+  
+    socket.off("setup", () => {
+      console.log("USER DISCONNECTED");
+      socket.leave(userData._id);
+    });
+  });
+
+
+
+///////////////////////////////////////////////////
+
+
+
+// app.listen(port, ()=>{
+//     console.log(`listening to port : ${port} `);
+// })
