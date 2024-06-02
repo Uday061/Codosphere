@@ -11,6 +11,7 @@ import CreatePostForm from './components/CreatePostForm.jsx';
 import Home from './pages/Home.jsx';
 import axios from 'axios';
 import Dashboard from './pages/Dashboard.jsx';
+import ChatPage from './pages/ChatPage.jsx';
 
 
 
@@ -65,6 +66,7 @@ export default function App() {
           <Route exact path='/post' element={<Post />}></Route>
           <Route exact path='/createPost' element={<CreatePostForm />}></Route>
           <Route exact path='/home' element={<Home/>}></Route>
+          <Route exact path='/chat' element={<ChatPage/>}></Route>
           <Route exact path='/dashboard/:id' element={<Dashboard/>}></Route>
 
      
