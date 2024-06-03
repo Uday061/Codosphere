@@ -30,6 +30,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     fetchChats();
+    
   }, []);
 
   return (

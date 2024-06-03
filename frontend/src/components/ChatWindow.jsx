@@ -13,7 +13,8 @@ const ChatWindow = ({ chat }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const user = useSelector((state) => state.auth.user);
-  var socket
+  var socket,selectedChat;
+  selectedChat = chat;
   useEffect(() => {
     socket = io('http://localhost:5555');
     socket.emit("setup", user);
@@ -24,6 +25,8 @@ const ChatWindow = ({ chat }) => {
     // eslint-disable-next-line
   }, []);
 
+
+  
   useEffect(() => {
     if (chat) {
       console.log(chat._id ," <-- ");
@@ -38,11 +41,13 @@ const ChatWindow = ({ chat }) => {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
           });
-
+          console.log(42);
           setMessages(response.data);
+          console.log("This is the response.data -->" , response.data );
+          console.log("This is the message -->" , messages );
           setLoading(false);
-    
-          socket.emit("join chat", chat._id);
+          console.log(45);
+          //if( chat != null ) socket.emit("join chat", chat._id);
           console.log(" This is response for getting previous messages api ","This is chatId -> ",chat._id ,"\n",response.data);
         } catch (error) {
           console.error('Error fetching chat messages:', error);
@@ -51,20 +56,26 @@ const ChatWindow = ({ chat }) => {
       fetchChatMessages();
 
       // Join the chat room for real-time updates
-      socket.emit("join chat", chat._id);
+      
+      try {
+        if (chat) socket.emit("join chat", chat._id);
 
-      // Listen for incoming messages
-      socket.on('messageReceived', (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-      });
+        // Listen for incoming messages
+        socket.on('messageReceived', (message) => {
+          setMessages((prevMessages) => [...prevMessages, message]);
+        });
 
-      // Cleanup when the component unmounts
-      return () => {
-        socket.emit('leaveChat', chat._id);
-        socket.off('messageReceived');
-      };
+        // Cleanup when the component unmounts
+        return () => {
+          socket.emit('leaveChat', chat._id);
+          socket.off('messageReceived');
+        };
+      }
+      catch (error) {
+        console.log("hehe");
+      }
     }
-  }, [chat]);
+  }, [selectedChat]);
 
   
 
