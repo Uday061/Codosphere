@@ -285,16 +285,6 @@ const ChatWindow = ({ chat }) => {
     }
   };
 
-  useEffect(() => {
-    socketRef.current.on("message recieved", (newMessageReceived) => {
-      if (!chat || chat._id !== newMessageReceived.chat._id) {
-        // if chat is not selected or doesn't match current chat
-      } else {
-        setMessages([...messages, newMessageReceived]);
-        // setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
-      }
-    });
-  });
 
   useEffect(() => {
     // Scroll to bottom whenever messages change
