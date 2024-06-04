@@ -1,86 +1,73 @@
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
-// import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector } from 'react-redux';
 // import Post from '../components/Post';
 // import CreatePostForm from '../components/CreatePostForm';
+// import { ClipLoader } from 'react-spinners';
 
 // const Home = () => {
 //     const token = localStorage.getItem('token');
-//     const state = useSelector((state) => state.auth);
-//     const [friends, setFriends] = useState([]);
-//     const [posts, setPosts] = useState([]);
-
-
 //     const user = useSelector((state) => state.auth.user);
+//     const [posts, setPosts] = useState([]);
+//     const [loading, setLoading] = useState(true);
 
-    
-//     {
-        
-//         useEffect(() => {
-//             const getAllPost = async () => {
+//     useEffect(() => {
+//         const getAllPost = async () => {
+//             try {
+//                 setLoading(true);
+//                 let allPosts = [];
 //                 for (let i = 0; i < user.friends.length; i++) {
 //                     const fid = user.friends[i];
-//                     try {
-//                         const url = `http://localhost:5555/api/post/${fid}/posts`;
-//                         const response = await axios.get(url, {
-//                             headers: {
-//                                 Authorization: `Bearer ${token}` // Attach JWT token to the request
-//                             }
-//                         });
-//                         console.log(response.data)
-
-//                         setPosts(...posts, response.data);
-//                         //console.log(posts);
-
-
-//                     } catch (err) {
-//                         console.log(err);
-
-//                     }
+//                     const url = `http://localhost:5555/api/post/${fid}/posts`;
+//                     const response = await axios.get(url, {
+//                         headers: {
+//                             Authorization: `Bearer ${token}` // Attach JWT token to the request
+//                         }
+//                     });
+//                     allPosts = allPosts.concat(response.data);
 //                 }
+//                 setPosts(allPosts);
+//                 setLoading(false);
+//             } catch (err) {
+//                 console.log(err);
+//                 setLoading(false);
 //             }
+//         };
+//         if (user && user.friends.length > 0) {
 //             getAllPost();
-//             console.log("Here i clg posts -->", posts);
-//         }, [user]);
-//     }
-
-
-
+//         } else {
+//             setLoading(false);
+//         }
+//     }, [user, token]);
 
 //     return (
 //         <>
-//             <>
-//                 {!user && <h2>Loading...</h2>}
-//                 {user && <h1>Welcome {user.firstName} {user.lastName}</h1>}
-
-//                 <CreatePostForm></CreatePostForm>
-
-//             </>
+//             {!user && (
+//                 <div className="flex items-center justify-center min-h-screen">
+//                     <ClipLoader color="#00008B" loading={loading} size={100} />
+//                 </div>
+//             )}
+//             {user && <h1>Welcome {user.firstName} {user.lastName}</h1>}
+//             <CreatePostForm />
 //             <div>
 //                 {/* Render posts */}
-//                 {posts && posts.map(post => (
-//                     <div key={post.id} >
-//                         {/* Render each post */}
-//                         <Post post={post} />
+//                 {loading ? (
+//                     <div className="flex items-center justify-center min-h-screen">
+//                         <ClipLoader color="#00008B" loading={loading} size={100} />
 //                     </div>
-//                 ))}
-//                 {!friends &&
-//                     <div>
-//                         gian
-//                     </div>
-//                 }
+//                 ) : (
+//                     posts.map(post => (
+//                         <div key={post.id}>
+//                             <Post post={post} />
+//                         </div>
+//                     ))
+//                 )}
 //             </div>
-
 //         </>
 //     );
 // };
 
 // export default Home;
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -124,13 +111,13 @@ const Home = () => {
     }, [user, token]);
 
     return (
-        <>
+        <div className="bg-blue-100 min-h-screen">
             {!user && (
                 <div className="flex items-center justify-center min-h-screen">
                     <ClipLoader color="#00008B" loading={loading} size={100} />
                 </div>
             )}
-            {user && <h1>Welcome {user.firstName} {user.lastName}</h1>}
+            {user && <h1 className="text-center text-2xl my-4">Welcome {user.firstName} {user.lastName}</h1>}
             <CreatePostForm />
             <div>
                 {/* Render posts */}
@@ -146,7 +133,7 @@ const Home = () => {
                     ))
                 )}
             </div>
-        </>
+        </div>
     );
 };
 

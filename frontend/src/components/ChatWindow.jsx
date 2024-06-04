@@ -249,6 +249,7 @@ const ChatWindow = ({ chat }) => {
           socketRef.current.on('message recieved', (message) => {
             setMessages((prevMessages) => [...prevMessages, message]);
           });
+          console.log(messages);
         } catch (error) {
           console.error('Error fetching chat messages:', error);
           setLoading(false);
@@ -350,7 +351,7 @@ const ChatWindow = ({ chat }) => {
     <>
       {user && (
         <div className="flex-1 flex flex-col h-full">
-          <header className="bg-green-600 text-white p-4 flex items-center">
+          <header className="bg-violet-500 text-white p-4 flex items-center">
             <img src={profilePictureUrl} alt="Profile" className="w-8 h-8 rounded-full mr-2" />
             <h1 className="text-xl font-bold">{nextPerson}</h1>
           </header>
@@ -364,6 +365,8 @@ const ChatWindow = ({ chat }) => {
               messages.map((msg) => (
                 <div key={msg._id} className={`mb-2 ${msg.sender._id === user._id ? 'text-right' : 'text-left'}`}>
                   <div className="inline-block bg-white p-2 rounded-lg shadow">
+                    <b>{msg.sender.firstName + " " +msg.sender.lastName}</b>
+                    <br />
                     {formatMessageContent(msg.content)}
                   </div>
                 </div>

@@ -21,16 +21,7 @@ export default function App() {
   const isLogged = (state) => {
     return state.auth.isLogged;
   }
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem("token");
-  //   if (token) {
-  //     dispatch(authActions.login());
-  //   }
-  // }, [])
-
-  // const [userData, setUserData] = useState(null);
-  // const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -80,8 +71,3 @@ export default function App() {
     </div>
   )
 }
-
-
-
-
-

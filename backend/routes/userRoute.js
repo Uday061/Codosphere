@@ -15,6 +15,7 @@ router.get("/getUserObjId/:id", getUserObjId);
 router.post("/setCodeforcesHandle/:handle", verifyToken, setCodeforcesHandle);
 
 /* UPDATE */
-router.patch("/:id/:friendId", verifyToken, addRemoveFriend, searchUsers);
+router.patch("/:id/:friendId",  addRemoveFriend);
+// router.patch("/:id/:friendId", verifyToken, addRemoveFriend, searchUsers);
 
 module.exports = router;
