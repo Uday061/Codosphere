@@ -12,6 +12,7 @@ import Home from './pages/Home.jsx';
 import axios from 'axios';
 import Dashboard from './pages/Dashboard.jsx';
 import ChatPage from './pages/ChatPage.jsx';
+import CodeEditor from './components/CodeEditor.jsx';
 
 
 
@@ -68,6 +69,7 @@ export default function App() {
           <Route exact path='/home' element={<Home/>}></Route>
           <Route exact path='/chat' element={<ChatPage/>}></Route>
           <Route exact path='/dashboard/:id' element={<Dashboard/>}></Route>
+          <Route exact path='/codeEditor' element={<CodeEditor/>}></Route>
 
      
         </Routes>

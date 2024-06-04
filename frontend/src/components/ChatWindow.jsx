@@ -290,7 +290,8 @@ const ChatWindow = ({ chat }) => {
       if (!chat || chat._id !== newMessageReceived.chat._id) {
         // if chat is not selected or doesn't match current chat
       } else {
-        setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
+        setMessages([...messages, newMessageReceived]);
+        // setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
       }
     });
   });
