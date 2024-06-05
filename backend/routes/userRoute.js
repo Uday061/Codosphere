@@ -1,5 +1,5 @@
 const express = require("express");
-const {  getUserFriends, addRemoveFriend ,getUserByjwt , setCodeforcesHandle,searchUsers,getUserObjId} = require("../controllers/userController.js");
+const {  getUserFriends, addRemoveFriend ,getUserByjwt , setCodeforcesHandle,searchUsers,getUserObjId, getAllUsers,searchFriends} = require("../controllers/userController.js");
 const { verifyToken } = require("../middleware/authMiddleware.js");
 
 
@@ -11,7 +11,8 @@ router.get("/getUserByjwt", verifyToken, getUserByjwt);
 router.get("/:id/friends", verifyToken, getUserFriends);
 router.get('/searchUsers',verifyToken,searchUsers);
 router.get("/getUserObjId/:id", getUserObjId);
-
+router.get("/getAllUsers", getAllUsers);
+router.get('/friends/search', verifyToken, searchFriends);
 router.post("/setCodeforcesHandle/:handle", verifyToken, setCodeforcesHandle);
 
 /* UPDATE */

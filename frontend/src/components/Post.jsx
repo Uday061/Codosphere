@@ -10,10 +10,10 @@
 //     // console.log('Token:', token);
 //     const handleClickLike = async () => {
 //         try {
-       
+
 //         // console.log(props.post._id);
 //           const url = `http://localhost:5555/api/post/${props.post._id}/like`;
-         
+
 //           const response = await axios.patch(url,{},{
 //             headers: {
 //               Authorization:`Bearer ${token}` // Attach JWT token to the request
@@ -24,10 +24,10 @@
 //             setIsLiked(!isLiked);
 //             setLikes(prevLikes => isLiked ? prevLikes - 1 : prevLikes + 1);
 //         }
-    
-          
+
+
 //         } catch (error) {
-        
+
 //           console.error('Error liking the post:', error);
 //         }
 //       };
@@ -40,8 +40,8 @@
 //         backgroundColor: 'white',
 //         // borderRadius: '5px',
 //       };
-     
- 
+
+
 //     const formattedDate = new Date(props.post.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 //     const ms = Date.now() - new Date("2024-04-14T20:17:27.310Z");
 //     const hrs = ms / 36e5;
@@ -55,7 +55,7 @@
 //                     `${Math.round(hrs / 720)} mo` :
 //                     `${Math.round(hrs / 8760)} yr`;
 //     return (
-         
+
 //         <div className="flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl ">
 //             <div className="flex items-start px-4 py-6">
 //                 <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar" />
@@ -168,7 +168,7 @@ const Post = (props) => {
                 hrs < 8760 ?
                     `${Math.round(hrs / 720)} mo` :
                     `${Math.round(hrs / 8760)} yr`;
-                    
+
     return (
         <div className="flex bg-blue-300 shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl">
             <div className="flex items-start px-4 py-6">
