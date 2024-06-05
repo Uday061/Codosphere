@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import ChatPreview from '../components/chatPreview';
+import ChatPreview from '../components/ChatPreview';
 import ChatWindow from '../components/ChatWindow';
 import CreateGroupModal from '../components/CreateGroupModal'; // Import your CreateGroupModal component
 import 'tailwindcss/tailwind.css';
