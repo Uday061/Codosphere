@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import ChatPreview from '../components/ChatPreview';
+import ChatPreview from '../components/chatPreview';
 import ChatWindow from '../components/ChatWindow';
 import CreateGroupModal from '../components/CreateGroupModal'; // Import your CreateGroupModal component
 import 'tailwindcss/tailwind.css';
 
-const token = localStorage.getItem('token');
 
 const ChatPage = () => {
+  const token = localStorage.getItem('token');
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
@@ -30,7 +30,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     fetchChats();
-  }, []);
+  }, [token]);
 
   return (
     <>

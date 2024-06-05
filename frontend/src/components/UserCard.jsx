@@ -40,7 +40,7 @@ const UserCard = ({ user }) => {
         <h2 className="text-4xl font-semibold text-center">
           {user.firstName} {user.lastName}
         </h2>
-        {loggedInUser._id !== user._id && ( // Show button only if the user is not the logged-in user
+        {loggedInUser?._id !== user?._id && ( // Show button only if the user is not the logged-in user
           <button className={`mt-4 px-4 py-2 ${isFriend ? 'bg-red-500' : 'bg-green-500'} text-white rounded-md flex items-center`} onClick={handleAddRemoveFriend}>
             {isFriend ? <FaUserMinus /> : <FaUserPlus />}
           </button>
