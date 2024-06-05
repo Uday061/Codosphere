@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FaUserPlus, FaUserMinus } from 'react-icons/fa'; // Import icons from react-icons library
 
 const UserCard = ({ user }) => {
-  const dispatch = useDispatch();
+
   const loggedInUser = useSelector((state) => state.auth.user);
   const [isFriend, setIsFriend] = useState(false); // Initialize isFriend state to false
 
@@ -18,7 +18,7 @@ const UserCard = ({ user }) => {
     try {
       const response = await axios.patch(`http://localhost:5555/api/user/${loggedInUser._id}/${user._id}`);
       const updatedFriends = response.data;
-      dispatch({ type: 'UPDATE_FRIENDS', payload: updatedFriends }); // Dispatch action to update friends list in Redux state
+      
       setIsFriend(!isFriend); // Toggle friend status
     } catch (error) {
       console.error('Error adding/removing friend:', error);
