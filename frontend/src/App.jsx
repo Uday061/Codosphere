@@ -49,25 +49,22 @@ export default function App() {
     fetchUserData();
   }, []);
   return (
-    <div>
-     <Router>
-      <Navbar></Navbar>
-        <Routes>
-          <Route exact path='/login' element={<Login />}></Route>
-          <Route exact path='/signup' element={<Signup />}></Route>
-          <Route exact path='/post' element={<Post />}></Route>
-          <Route exact path='/createPost' element={<CreatePostForm />}></Route>
-          <Route exact path='/home' element={<Home/>}></Route>
-          <Route exact path='/chat' element={<ChatPage/>}></Route>
-          <Route exact path='/dashboard/:id' element={<Dashboard/>}></Route>
-          <Route exact path='/codeEditor' element={<CodeEditor/>}></Route>
-
-     
-        </Routes>
-        
+    <div className="h-screen flex flex-col">
+      <Router>
+        <Navbar />
+        <div className="flex-1 overflow-y-auto">
+          <Routes>
+            <Route exact path='/login' element={<Login />} />
+            <Route exact path='/signup' element={<Signup />} />
+            <Route exact path='/post' element={<Post />} />
+            <Route exact path='/createPost' element={<CreatePostForm />} />
+            <Route exact path='/home' element={<Home />} />
+            <Route exact path='/chat' element={<ChatPage />} />
+            <Route exact path='/dashboard/:id' element={<Dashboard />} />
+            <Route exact path='/codeEditor' element={<CodeEditor />} />
+          </Routes>
+        </div>
       </Router>
-
-
     </div>
-  )
+  );
 }
