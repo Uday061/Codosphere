@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
     console.log("Connected to socket.io");
     socket.on("setup", (userData) => {
       socket.join(userData._id);
-      socket.emit("connected");
+      socket.emit("User Has Joined the room " + userData._id);
     });
   
     socket.on("join chat", (room) => {
@@ -91,13 +91,13 @@ io.on("connection", (socket) => {
   
     socket.on("new message", (newMessageReceived) => {
       var chat = newMessageReceived.chat;
-  
+      console.log(" This message was recieved from Client Side -----> \n Sender is : " ,newMessageReceived.sender.firstName );
       if (!chat.users) return console.log("chat.users not defined");
-  
+      
       chat.users.forEach((user) => {
         if (user._id == newMessageReceived.sender._id) return;
-  
-        socket.in(user._id).emit("message received", newMessageReceived);
+        console.log(" Emitting this message to this client ----> " , user );
+        socket.in(user).emit("message received", newMessageReceived);
       });
     });
   

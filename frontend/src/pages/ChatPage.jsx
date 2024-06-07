@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import ChatPreview from '../components/ChatPreview';
+import ChatPreview from '../components/chatPreview';
 import ChatWindow from '../components/ChatWindow';
 import CreateGroupModal from '../components/CreateGroupModal';
 import 'tailwindcss/tailwind.css';

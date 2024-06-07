@@ -23,13 +23,14 @@ const ChatWindow = ({ chat }) => {
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
     socket.on('message received', (message) => {
+      console.log(" This message was recieved from backend -----> \n" , message );
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => {
       socket.disconnect();
     };
-  }, [user]);
+  }, [chat,user]);
 
   useEffect(() => {
     if (chat) {
@@ -45,7 +46,7 @@ const ChatWindow = ({ chat }) => {
           setLoading(false);
           setMessages(response.data);
 
-          socketRef.current.emit("join chat", chat._id);
+          //socketRef.current.emit("join chat", chat._id);
         } catch (error) {
           console.error('Error fetching chat messages:', error);
           setLoading(false);
