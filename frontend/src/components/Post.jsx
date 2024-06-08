@@ -771,7 +771,7 @@ const Post = ({ post }) => {
     return (
         <div className="flex bg-blue-300 shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl">
             <div className="flex items-start px-4 py-6">
-                <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src={post.userPicturePath} alt="avatar" />
+                <img className="w-12 h-12 rounded-full object-cover mr-4 shadow" src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" alt="avatar" />
                 <div className="">
                     <div className="flex items-center ">
                         <h2 className="text-lg font-semibold text-gray-900 -mt-1">{post.firstName + " " + post.lastName} </h2>

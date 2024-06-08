@@ -38,7 +38,7 @@ const AddForcesHandle = () => {
 
             const timeDiff = submittedTime - startTime / 1000;
 
-            if (submittedHandle == handle && fetchedId == submissionId && fetchedContestId == 1578 && fetchedIndex == 'C' && timeDiff <= 120 && timeDiff>=0) {
+            if (submittedHandle == handle && fetchedId == submissionId && fetchedContestId == 1578 && fetchedIndex == 'C' && timeDiff <= 1200 && timeDiff>=0) {
                 console.log(" Bato - Bati " + handle);
 
                 console.log(timeDiff);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+
   const navigate = useNavigate();
   const [Inputs, setInputs] = useState({ firstName: "", lastName: "", password: "", email: "" });
 
@@ -20,10 +21,13 @@ const Signup = () => {
       console.log(" Status is --> ",error.response.status);
       alert(error.response.data.message);
     }
+
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-blue-100" style={{ backgroundImage: `url("https://giphy.com/embed/7AtHoQ9XWbpwLRxs0t")`, backgroundSize: 'cover' }}>
+   
+
+    <div className="min-h-screen flex justify-center items-center bg-blue-100 bg-custom-bg bg-cover bg-center bg-fixed min-h-screen overflow-hidden" >
       <div className="max-w-md w-full p-8 bg-blue-200 shadow-md rounded-md">
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
         <form>
@@ -93,6 +97,7 @@ const Signup = () => {
         </form>
       </div>
     </div>
+   
   );
 };
 

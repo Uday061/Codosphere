@@ -55,7 +55,7 @@ export default function App() {
         <div className="flex-1 overflow-y-auto">
           <Routes>
             <Route exact path='/login' element={<Login />} />
-            <Route exact path='/signup' element={<Signup />} />
+            <Route exact path='/' element={<Signup />} />
             <Route exact path='/post' element={<Post />} />
             <Route exact path='/createPost' element={<CreatePostForm />} />
             <Route exact path='/home' element={<Home />} />

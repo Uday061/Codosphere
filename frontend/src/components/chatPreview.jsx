@@ -20,7 +20,7 @@ const ChatPreview = ({ chat }) => {
   }
 
   return (
-    <div className="p-2 bg-white shadow rounded-lg mb-2">
+    <div className="p-2 bg-white shadow rounded-lg mb-2 ">
       <h3 className="font-semibold">{chatName}</h3>
       {isChat && <p className="text-gray-600">{latestMessage}</p>}
     </div>

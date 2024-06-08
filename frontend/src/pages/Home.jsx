@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -42,13 +41,13 @@ const Home = () => {
     }, [user, token]);
 
     return (
-        <div className="bg-blue-100 min-h-screen">
+        <div className="bg-custom-bg bg-cover bg-center bg-fixed min-h-screen overflow-hidden">
             {!user && (
                 <div className="flex items-center justify-center min-h-screen">
                     <ClipLoader color="#00008B" loading={loading} size={100} />
                 </div>
             )}
-            {user && <h1 className="text-center text-2xl my-4">Welcome {user.firstName} {user.lastName}</h1>}
+            {user && <h1 className="text-center text-2xl my-4 text-white font-bold">Welcome {user.firstName} {user.lastName}</h1>}
             <CreatePostForm />
             <div>
                 {/* Render posts */}
@@ -69,10 +68,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
-
-
-
