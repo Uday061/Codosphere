@@ -147,10 +147,11 @@ const ChatPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const user = useSelector((state) => state.auth.user);
-  
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
+
   const fetchChats = async () => {
     try {
-      const response = await axios.get('http://localhost:5555/api/chat', {
+      const response = await axios.get(`${apiUrl}/api/chat`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -163,7 +164,7 @@ const ChatPage = () => {
 
   const fetchFriends = async (query) => {
     try {
-      const response = await axios.get(`http://localhost:5555/api/user/friends/search?q=${query}`, {
+      const response = await axios.get(`${apiUrl}/api/user/friends/search?q=${query}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -185,7 +186,7 @@ const ChatPage = () => {
 
   const handleStartChat = async (friend) => {
     try {
-      const response = await axios.post('http://localhost:5555/api/chat', {
+      const response = await axios.post(`${apiUrl}/api/chat`, {
         userId: friend._id,
       }, {
         headers: {

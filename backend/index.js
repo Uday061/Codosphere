@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const connectDatabase = require("./dbconnect/dbconnect.js");
 const dotenv = require("dotenv");
-dotenv.config({ path : "./config/config.env" });
+// dotenv.config({ path : "./config/config.env" });
+dotenv.config();
+
 const authRoute = require("./routes/authRoute.js");
 const postRoute = require("./routes/postRoute.js");
 const userRoute = require("./routes/userRoute.js");
@@ -70,7 +72,7 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     // credentials: true,
   },
 });

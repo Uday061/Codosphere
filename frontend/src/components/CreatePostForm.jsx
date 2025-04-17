@@ -14,6 +14,17 @@ const CreatePostForm = () => {
     const [previews, setPreviews] = useState([]);
     const [picPath, setPicPath] = useState('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadError, setUploadError] = useState(null);
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
+
+    // useEffect for cleanup
+    React.useEffect(() => {
+        // Cleanup function to revoke object URLs when component unmounts
+        return () => {
+            previews.forEach(preview => URL.revokeObjectURL(preview));
+        };
+    }, [previews]);
 
     const openModal = () => {
         setIsOpen(true);
@@ -35,7 +46,7 @@ const CreatePostForm = () => {
 
     const handlePost = async () => {
         try {
-            const url = `http://localhost:5555/api/post/create`;
+            const url = `${apiUrl}/api/post/create`;
             await axios.post(url, {
                 userId: user._id,
                 description: inputs.desc,
@@ -53,32 +64,92 @@ const CreatePostForm = () => {
         }
     };
 
+    // const handleImageUpload = async (event) => {
+    //     const files = Array.from(event.target.files);
+    //     if (files.length === 0) return;
+
+    //     const formData = new FormData();
+    //     files.forEach(file => {
+    //         formData.append('image', file);
+    //     });
+
+    //     // Preview selected images
+    //     const newPreviews = files.map(file => URL.createObjectURL(file));
+    //     setPreviews([...previews, ...newPreviews]);
+
+    //     try {
+    //         const uploadUrl = 'http://localhost:5555/upload-images';
+    //         const response = await axios.post(uploadUrl, formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data',
+    //                 Authorization: `Bearer ${token}` // Attach JWT token to the request
+    //             }
+    //         });
+    //         const newPicPaths = response.data.data.map(image => image.url);
+    //         setPicPath(newPicPaths[0]);
+    //         setInputs({ ...inputs, picPaths: [...inputs.picPaths, ...newPicPaths] });
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
     const handleImageUpload = async (event) => {
+        // Reset error state
+        setUploadError(null);
+        
         const files = Array.from(event.target.files);
         if (files.length === 0) return;
-
+        
+        // Set uploading state
+        setIsUploading(true);
+    
         const formData = new FormData();
         files.forEach(file => {
             formData.append('image', file);
         });
-
+    
         // Preview selected images
         const newPreviews = files.map(file => URL.createObjectURL(file));
-        setPreviews([...previews, ...newPreviews]);
-
+        setPreviews(prev => [...prev, ...newPreviews]);
+    
         try {
-            const uploadUrl = 'http://localhost:5555/upload-images';
+            // Validate token before attempting upload
+            if (!token) {
+                throw new Error("Authentication token missing");
+            }
+            
+            const uploadUrl = `${apiUrl}/upload-images`;
             const response = await axios.post(uploadUrl, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}` // Attach JWT token to the request
+                    Authorization: `Bearer ${token}`
                 }
             });
+            
+            // Validate response
+            if (!response.data || !response.data.data || !Array.isArray(response.data.data)) {
+                throw new Error("Invalid server response");
+            }
+            
             const newPicPaths = response.data.data.map(image => image.url);
-            setPicPath(newPicPaths[0]);
-            setInputs({ ...inputs, picPaths: [...inputs.picPaths, ...newPicPaths] });
+            
+            if (newPicPaths.length > 0) {
+                setPicPath(newPicPaths[0]);
+                setInputs(prev => ({
+                    ...prev,
+                    picPaths: [...prev.picPaths, ...newPicPaths]
+                }));
+            } else {
+                throw new Error("No images were uploaded");
+            }
         } catch (error) {
-            console.log(error);
+            console.error("Image upload error:", error);
+            setUploadError(error.message || "Failed to upload images");
+            
+            // Remove the previews for failed uploads
+            newPreviews.forEach(url => URL.revokeObjectURL(url));
+            setPreviews(prev => prev.filter(p => !newPreviews.includes(p)));
+        } finally {
+            setIsUploading(false);
         }
     };
 
@@ -130,7 +201,15 @@ const CreatePostForm = () => {
                                     multiple // Enable multiple file selection
                                     style={{ display: 'none' }}
                                     onChange={handleImageUpload}
+                                    disabled={isUploading}
                                 />
+                                {isUploading && (
+                                    <div className="ml-2 text-blue-500 text-sm">Uploading images...</div>
+                                )}
+                                {uploadError && (
+                                    <div className="ml-2 text-red-500 text-sm">{uploadError}</div>
+                                )}
+
                                 <div className="count ml-auto text-gray-400 text-xs font-semibold">0/300</div>
                             </div>
                             <div className="image-previews flex flex-wrap">
@@ -138,10 +217,22 @@ const CreatePostForm = () => {
                                     <img key={index} src={preview} alt="preview" className="h-20 w-20 object-cover m-2" />
                                 ))}
                             </div>
-                            <div className="buttons flex">
+
+                            {/* <div className="buttons flex">
                                 <div onClick={closeModal} className="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto">Cancel</div>
                                 <div onClick={handlePost} className="btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500">Post</div>
+                            </div> */}
+
+                            <div className="buttons flex">
+                                <div onClick={closeModal} className="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto">Cancel</div>
+                                <div 
+                                    onClick={isUploading ? null : handlePost} 
+                                    className={`btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500 ${isUploading ? 'opacity-50' : ''}`}
+                                >
+                                    {isUploading ? 'Uploading...' : 'Post'}
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -21,6 +21,7 @@ export default function App() {
   const isLogged = (state) => {
     return state.auth.isLogged;
   }
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
   
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,7 +34,7 @@ export default function App() {
         }
 
         // Make API call to backend to get user data
-        const response = await axios.get('http://localhost:5555/api/user/getUserByjwt', {
+        const response = await axios.get(`${apiUrl}/api/user/getUserByjwt`, {
           headers: {
             Authorization: `Bearer ${token}` // Attach JWT token to the request
           }

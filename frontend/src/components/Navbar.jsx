@@ -14,6 +14,7 @@ export default function Navbar() {
     const loggedInUser = useSelector((state) => state.auth.user);
     const isLogged = useSelector((state) => state.auth.isLogged); // Get isLogged from Redux state
     const dispatch = useDispatch(); // Get dispatch function from useDispatch
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
     useEffect(() => {
         const searchUsers = async () => {
@@ -23,7 +24,7 @@ export default function Navbar() {
             }
 
             try {
-                const response = await axios.get('http://localhost:5555/api/user/searchUsers', {
+                const response = await axios.get(`${apiUrl}/api/user/searchUsers`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     },

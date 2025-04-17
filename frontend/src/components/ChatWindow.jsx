@@ -195,9 +195,9 @@ const ChatWindow = ({ chat }) => {
   const user = useSelector((state) => state.auth.user);
   const socketRef = useRef();
   const messagesEndRef = useRef(null);
-
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
   useEffect(() => {
-    const socket = io('http://localhost:5555');
+    const socket = io(`${apiUrl}`);
     socketRef.current = socket;
 
     socket.emit("setup", user);
@@ -219,7 +219,7 @@ const ChatWindow = ({ chat }) => {
       const fetchChatMessages = async () => {
         try {
           setLoading(true);
-          const response = await axios.get(`http://localhost:5555/api/message/${chat._id}`, {
+          const response = await axios.get(`${apiUrl}/api/message/${chat._id}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
@@ -244,7 +244,7 @@ const ChatWindow = ({ chat }) => {
     try {
       socketRef.current.emit("stop typing", chat._id);
       const response = await axios.post(
-        'http://localhost:5555/api/message',
+        `${apiUrl}/api/message`,
         { content: newMessage, chatId: chat._id },
         {
           headers: {

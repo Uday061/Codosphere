@@ -10,6 +10,7 @@ const Home = () => {
     const user = useSelector((state) => state.auth.user);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
     useEffect(() => {
         const getAllPost = async () => {
@@ -18,13 +19,14 @@ const Home = () => {
                 let allPosts = [];
                 for (let i = 0; i < user.friends.length; i++) {
                     const fid = user.friends[i];
-                    const url = `http://localhost:5555/api/post/${fid}/posts`;
+                    const url = `${apiUrl}/api/post/${fid}/posts`;
                     const response = await axios.get(url, {
                         headers: {
                             Authorization: `Bearer ${token}` // Attach JWT token to the request
                         }
                     });
                     allPosts = allPosts.concat(response.data);
+                    console.log(allPosts);
                 }
                 setPosts(allPosts);
                 setLoading(false);

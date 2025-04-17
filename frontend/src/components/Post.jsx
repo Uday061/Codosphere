@@ -206,10 +206,11 @@ const Post = ({ post }) => {
     const [comments, setComments] = useState(post.comments);
     const [replyingTo, setReplyingTo] = useState(null); // Keep track of the comment being replied to
     const token = localStorage.getItem('token');
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
     const handleClickLike = async () => {
         try {
-            const url = `http://localhost:5555/api/post/${post._id}/like`;
+            const url = `${apiUrl}/api/post/${post._id}/like`;
             const response = await axios.patch(url, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -227,7 +228,7 @@ const Post = ({ post }) => {
 
     const handleAddRemoveFriend = async () => {
         try {
-            const url = `http://localhost:5555/api/user/${user._id}/${post.userId}`;
+            const url = `${apiUrl}/api/user/${user._id}/${post.userId}`;
             const response = await axios.patch(url, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -268,7 +269,7 @@ const Post = ({ post }) => {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:5555/api/post/${post._id}/comments`, {
+            const response = await axios.get(`${apiUrl}/api/post/${post._id}/comments`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -287,7 +288,7 @@ const Post = ({ post }) => {
 
     const handleCreateComment = async () => {
         try {
-            const response = await axios.post(`http://localhost:5555/api/post/${post._id}/comment`, {
+            const response = await axios.post(`${apiUrl}/api/post/${post._id}/comment`, {
                 content: newCommentContent,
                 userId: user._id,
                 firstName: user.firstName,

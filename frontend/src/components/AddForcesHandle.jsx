@@ -10,7 +10,7 @@ const AddForcesHandle = () => {
         setHandle(event.target.value);
     };
 
-
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
     const handleVerify = () => {
         // Logic to verify the handle
@@ -43,7 +43,7 @@ const AddForcesHandle = () => {
 
                 console.log(timeDiff);
 
-                const response = await axios.post(`http://localhost:5555/api/user/setCodeforcesHandle/${handle}`,{}, {
+                const response = await axios.post(`${apiUrl}/api/user/setCodeforcesHandle/${handle}`,{}, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

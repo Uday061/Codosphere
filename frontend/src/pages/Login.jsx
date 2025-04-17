@@ -91,6 +91,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
   const change = (e) => {
     const { name, value } = e.target;
@@ -101,7 +102,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5555/api/auth/login", inputs);
+      const response = await axios.post(`${apiUrl}/api/auth/login`, inputs);
       const token = response.data.token;
       const user = response.data.user;
 

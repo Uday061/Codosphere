@@ -7,6 +7,7 @@ const Signup = () => {
   const [inputs, setInputs] = useState({ firstName: "", lastName: "", password: "", confirmPassword: "", email: "" });
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyFields, setEmptyFields] = useState([]);
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
   const change = (e) => {
     const { name, value } = e.target;
@@ -41,7 +42,7 @@ const Signup = () => {
     }
 
     try {
-      await axios.post("http://localhost:5555/api/auth/register", {
+      await axios.post(`${apiUrl}/api/auth/register`, {
         firstName: inputs.firstName,
         lastName: inputs.lastName,
         email: inputs.email,

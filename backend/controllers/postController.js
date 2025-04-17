@@ -158,13 +158,16 @@ const createPost = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       location: user.location,
-      description,
+      description:description,
       userPicturePath: user.picturePath,
-      picturePath,
+      picturePath: picturePath,
       likes: [],
       comments: [],
     });
     await newPost.save();
+    console.log("pic path:", picturePath);
+    console.log("new post:", newPost);
+    
 
     const posts = await Post.find();
     res.status(201).json(posts);
@@ -186,6 +189,7 @@ const getUserPosts = async (req, res) => {
   try {
     const { userId } = req.params;
     const posts = await Post.find({ userId });
+    console.log(posts);
     
     // Map through each post and include the parent comment ID if available
     // const updatedPosts = posts.map(post => ({

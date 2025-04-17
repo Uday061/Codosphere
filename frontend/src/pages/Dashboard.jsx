@@ -12,11 +12,12 @@ const Dashboard = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const loggedInUser = useSelector((state) => state.auth.user); // Get logged-in user from Redux store
-  
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:5555/api/user/getUserObjId/${id}`);
+        const response = await axios.get(`${apiUrl}/api/user/getUserObjId/${id}`);
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user:', error);

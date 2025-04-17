@@ -7,10 +7,11 @@ const CreateGroupModal = ({ onClose }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const token = localStorage.getItem('token');
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get('http://localhost:5555/api/user/searchUsers', {
+      const response = await axios.get(`${apiUrl}/api/user/searchUsers`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +39,7 @@ const CreateGroupModal = ({ onClose }) => {
   
     try {
       const response = await axios.post(
-        'http://localhost:5555/api/chat/group',
+        `${apiUrl}/api/chat/group`,
         {
           name: groupName,
           users: selectedUsers,

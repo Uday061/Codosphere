@@ -7,6 +7,7 @@ const UserCard = ({ user,setUser }) => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.auth.user);
   const [isFriend, setIsFriend] = useState(false); // Initialize isFriend state to false
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5555';
 
   useEffect(() => {
     if (user) {
@@ -16,7 +17,7 @@ const UserCard = ({ user,setUser }) => {
 
   const handleAddRemoveFriend = async () => {
     try {
-      const response = await axios.patch(`http://localhost:5555/api/user/${loggedInUser._id}/${user._id}`);
+      const response = await axios.patch(`${apiUrl}/api/user/${loggedInUser._id}/${user._id}`);
       const updatedFriends = response.data;
       dispatch({ type: 'UPDATE_FRIENDS', payload: updatedFriends }); // Dispatch action to update friends list in Redux state
       setIsFriend(!isFriend); // Toggle friend status
